@@ -15,18 +15,30 @@
     
     <div class="loginPopup">
         <div class="formPopup" id="popupForm">
-          <form action="/action_page.php" class="formContainer">
-            <h2>Please Log in</h2>
-            <label for="email">
-              <strong>E-mail</strong>
+          <form onsubmit="input();return false" id="myForm" class="formContainer">
+            <h2>Enter Book Details</h2>
+            <label for="Title">
+              <strong>Title</strong>
             </label>
-            <input type="text" id="email" placeholder="Your Email" name="email" required>
-            <label for="psw">
-              <strong>Password</strong>
+            <input type="text" id="title" placeholder="Book Title" name="title"required>
+            <label for="Author">
+              <strong>Author</strong>
             </label>
-            <input type="password" id="psw" placeholder="Your Password" name="psw" required>
-            <button type="submit" class="btn">Log in</button>
-            <button type="button" class="btn cancel" onclick="closeTheForm()">Close</button>
+            <input type="text" id="author" placeholder="Author" name="Author" required>
+            <label for="Pages">
+              <strong>Pages</strong>
+            </label>
+            <input type="text" id="page" placeholder="Page Count" name="Page" required>
+            <label for="Read">
+              <strong>Read</strong>
+            </label>
+            <input type="radio" id="status" name="Status" value="Read" required>
+            <label for="Un-Read">
+              <strong>Un-Read</strong>
+            </label>
+            <input type="radio" id="status" name="Status" value="Un-Read" required>
+            <button type="submit" class="btn" >Submit</button>
+            <button type="button" class="btn cancel" onclick="closeTheForm()">Cancel</button>
           </form>
         </div>
       </div>
