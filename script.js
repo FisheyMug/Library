@@ -29,11 +29,11 @@ function closeTheForm() {
 let library = []
 
 class Book {
-    constructor(title, author, page) {
+    constructor(title, author, page, status) {
         this.title = title;
         this.author = author;
         this.page = page
-        this.status = 'Un-read'
+        this.status = status
         this.location = ""
     }
 
@@ -54,29 +54,58 @@ Book.prototype.print = function(){
 }
 
 Book.prototype.putOnShelf = function() {
-    numOfBooks= library.length -1;
-    numOfBooks ++
-    this.location = numOfBooks -1;
+    for (i = 0; i < library.length; i++) {
+        library[i].location = i;
+    }
     const newDiv = document.createElement("div");
-    newDiv.dataLocation = numOfBooks;
-    //const name = document.createTextNode(Book)
+    newDiv.id = this.title;
+    newDiv.dataLocation = this.location;
+    newDiv.dataStatus = this.status;
+
+    const readButton = document.createElement("button")
+    readButton.innerHTML="Read/Unread"
+    readButton.id="read/unread"
+    readButton.onclick = function() {
+        library.forEach(book => {
+            book.readCheck()
+        })
+        display()
+    }
+
     const button = document.createElement("button")
     button.id = "delete"
     button.innerHTML= "Delete"
     button.onclick = function() {
-        library.splice(this.location, 1)
+        library.splice(newDiv.dataLocation, 1)
+        for (i = 0; i < library.length; i++) {
+            library[i].location = i;
+        }
         display()
     }
+
+
     newDiv.innerHTML = 'Title: ' + this.title +
         '<br> Author: ' +  this.author + '<br>Pages: ' +
-        this.page + '<br>Status: ' + this.status
+        this.page + '<br>Status: ' + this.status;
+
+    newDiv.appendChild(readButton)
     newDiv.appendChild(button)
+    
     shelf.appendChild(newDiv)
 }
 
+Book.prototype.readCheck = function() {
+        console.log(this.status)
+        if (this.status === "Read") {
+            this.status= "Un-read"
+        } else if (this.status==="Un-read") {
+            this.status = "Read"
+        }
+        display()
+}
 
-var mobyDick = new Book 
-('Moby Dick' , 'That dude' , 82 );
+let mobyDick = new Book 
+('Moby Dick' , 'That dude' , 82, 'Un-read' );
 
 library.push(mobyDick)
 
@@ -96,12 +125,15 @@ function input() {
     closeTheForm()
     display()
     clearForm()
-    
 }
 
 
 
+
 function display() {
+    for (i = 0; i < library.length; i++) {
+        library[i].location = i;
+    }
     if (library.length !==0) {
         while (shelf.firstChild) {
             shelf.removeChild(shelf.lastChild)
@@ -113,17 +145,17 @@ function display() {
     
 }
 
- let body = document.querySelector('body')
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
+// let body = document.querySelector('body')
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function (event) {
    
-    console.log(event.target == body)
+//     console.log(event.target === body)
 
-    if (event.target !=form && document.getElementById
-    ('popupForm').style.display === "none") {
-      closeTheForm();
-    }
-  }
+//     if (event.target !=form && document.getElementById
+//     ('popupForm').style.display === "none") {
+//       closeTheForm();
+//     }
+// }
 
 let form = document.getElementById("myForm");
 function handleForm(event) { event.preventDefault(); } 
