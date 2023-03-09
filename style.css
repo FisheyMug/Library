@@ -14,6 +14,7 @@
 
 #shelf {
   display: flex;
+  flex-direction: row;
   border: 2px solid black;
 }
 
@@ -27,6 +28,9 @@ div {
   justify-content: center;
 }
 
+.books {
+  width: 50px;
+}
 
 borrowed 
 .openBtn {

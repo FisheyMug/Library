@@ -3,7 +3,8 @@ const addButton = document.getElementById('add')
 const title = document.getElementById('title')
 const author = document.getElementById('author')
 const page = document.getElementById('page')
-const delButton = document.getElementById('delete')
+
+let readButton = document.querySelectorAll(".readButton")
 
 let numOfBooks = 0;
 
@@ -54,23 +55,20 @@ Book.prototype.print = function(){
 }
 
 Book.prototype.putOnShelf = function() {
+    readButton = document.querySelectorAll(".readButton")
+
     for (i = 0; i < library.length; i++) {
         library[i].location = i;
     }
     const newDiv = document.createElement("div");
     newDiv.id = this.title;
     newDiv.dataLocation = this.location;
-    newDiv.dataStatus = this.status;
-
-    const readButton = document.createElement("button")
-    readButton.innerHTML="Read/Unread"
-    readButton.id="read/unread"
-    readButton.onclick = function() {
-        library.forEach(book => {
-            book.readCheck()
-        })
-        display()
-    }
+    
+    newDiv.class = "books";
+    const read = document.createElement("button")
+    read.innerHTML="Read/Unread"
+    read.classList.add("readButton")
+    read.dataStatus = this.location
 
     const button = document.createElement("button")
     button.id = "delete"
@@ -83,12 +81,18 @@ Book.prototype.putOnShelf = function() {
         display()
     }
 
+    read.onclick = function() {
+       for (i = 0; i< library.length; i++) {
+  
+            library[i].readCheck()
 
+        }
+    }
     newDiv.innerHTML = 'Title: ' + this.title +
         '<br> Author: ' +  this.author + '<br>Pages: ' +
         this.page + '<br>Status: ' + this.status;
 
-    newDiv.appendChild(readButton)
+    newDiv.appendChild(read)
     newDiv.appendChild(button)
     
     shelf.appendChild(newDiv)
@@ -96,6 +100,7 @@ Book.prototype.putOnShelf = function() {
 
 Book.prototype.readCheck = function() {
         console.log(this.status)
+        readButton = document.querySelectorAll(".readButton")
         if (this.status === "Read") {
             this.status= "Un-read"
         } else if (this.status==="Un-read") {
@@ -112,6 +117,7 @@ library.push(mobyDick)
 function addBookToLibrary(book) {
     library.push(book)
 }
+let statusValue = document.getElementsByName("Status")
 
 function input() {
         while (shelf.firstChild) {
@@ -120,9 +126,14 @@ function input() {
     let title = document.getElementById("title").value
     let author = document.getElementById("author").value
     let page = document.getElementById("page").value
-    let status = document.getElementById("status").value
+    let status;
+    for (i=0; i<statusValue.length; i++) {
+        if (statusValue[i].checked) status = statusValue[i].value
+        console.log(statusValue[i].value)
+    }
     addBookToLibrary(new Book(title, author, page, status))
     closeTheForm()
+    readButton = document.querySelectorAll(".readButton")
     display()
     clearForm()
 }
