@@ -4,7 +4,9 @@
   margin: 5px;
 }
 
-
+h1{
+  text-align: center;
+}
 
 .box {
   display: flex;
@@ -16,11 +18,11 @@
   display: flex;
   flex-direction: row;
   border: 2px solid black;
+  background-image: url("https://t3.ftcdn.net/jpg/04/90/19/78/360_F_490197897_W2s6kwI2Zd2r0tIYRtQbLpiyInWbrvv6.jpg");
 }
 
 div {
   width: auto;
-  border: 2px solid green;
   margin-left: 2px;
   display: flex;
   flex-direction: column;

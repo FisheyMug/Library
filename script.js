@@ -4,6 +4,7 @@ const title = document.getElementById('title')
 const author = document.getElementById('author')
 const page = document.getElementById('page')
 
+
 let readButton = document.querySelectorAll(".readButton")
 
 let numOfBooks = 0;
@@ -55,37 +56,37 @@ Book.prototype.print = function(){
 }
 
 Book.prototype.putOnShelf = function() {
-    readButton = document.querySelectorAll(".readButton")
+    readButton = document.querySelectorAll(".readButton");
 
-    for (i = 0; i < library.length; i++) {
-        library[i].location = i;
-    }
+    const index = library.indexOf(this); // get the index of the book in the library array
+
     const newDiv = document.createElement("div");
     newDiv.id = this.title;
-    newDiv.dataLocation = this.location;
-    
+    newDiv.setAttribute('data-location', index); // set the data-location attribute to the index of the book in the library array
+
+    newDiv.style.backgroundImage= "url('https://t4.ftcdn.net/jpg/03/15/06/77/360_F_315067732_O1KrKFDDW6CEf2Z440eDeL4yB695uad9.jpg')"
+    newDiv.style.backgroundSize = "100%"
     newDiv.class = "books";
-    const read = document.createElement("button")
-    read.innerHTML="Read/Unread"
-    read.classList.add("readButton")
-    read.dataStatus = this.location
+    const read = document.createElement("button");
+    read.innerHTML = "Read/Unread";
+    read.classList.add("readButton" + index);
+    read.setAttribute("data-status", index); // set the data-status attribute to the index of the book in the library array
+  
 
     const button = document.createElement("button")
     button.id = "delete"
     button.innerHTML= "Delete"
     button.onclick = function() {
-        library.splice(newDiv.dataLocation, 1)
-        for (i = 0; i < library.length; i++) {
-            library[i].location = i;
-        }
+        library.splice(index, 1)
         display()
     }
 
-    read.onclick = function() {
-       for (i = 0; i< library.length; i++) {
-  
-            library[i].readCheck()
-
+    read.onclick = function(event) {
+        const location = event.target.getAttribute("data-status"); // get location from data-status attribute
+        const book = library[location]; // find corresponding Book object
+        
+        if (book) {
+          book.readCheck();
         }
     }
     newDiv.innerHTML = 'Title: ' + this.title +
@@ -100,12 +101,7 @@ Book.prototype.putOnShelf = function() {
 
 Book.prototype.readCheck = function() {
         console.log(this.status)
-        readButton = document.querySelectorAll(".readButton")
-        if (this.status === "Read") {
-            this.status= "Un-read"
-        } else if (this.status==="Un-read") {
-            this.status = "Read"
-        }
+        this.status = (this.status === "Read") ? "Un-read" : "Read";
         display()
 }
 
@@ -116,6 +112,7 @@ library.push(mobyDick)
 
 function addBookToLibrary(book) {
     library.push(book)
+    readButton = document.querySelectorAll(".readButton");
 }
 let statusValue = document.getElementsByName("Status")
 
@@ -153,7 +150,7 @@ function display() {
             book.putOnShelf(book.title)
         })
     } else shelf.innerHTML = "";
-    
+    readButton = document.querySelectorAll(".readButton")
 }
 
 // let body = document.querySelector('body')
